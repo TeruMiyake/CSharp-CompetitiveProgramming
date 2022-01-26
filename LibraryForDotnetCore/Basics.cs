@@ -2,7 +2,7 @@
 
 namespace LibraryForDotnetCore.Basics
 {
-    public static class Basics
+    public static class Util
     {
         /// <summary>
         /// 拡張メソッド
