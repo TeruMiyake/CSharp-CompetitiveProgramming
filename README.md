@@ -10,21 +10,21 @@ AtCoderTemplate プロジェクト
 LibraryForDotnetCore プロジェクト
 
 ## 特徴
-通常の Program.cs ではなく LocalEntryPoint.cs をエントリポイントとすることで、ローカル環境と提出時の設定を分けています。
+- 通常の Program.cs ではなく LocalEntryPoint.cs をエントリポイントとすることで、ローカル環境と提出時の設定を分けています。
 ### 入出力
-input/ ディレクトリに *.in を入れておけば、それらが入力ファイルとみなされます。
-デバッグ(F5)などでプログラムを実行すると output/ ディレクトリに *.out が出力されます。
+- input/ ディレクトリに *.in を入れておけば、それらが入力ファイルとみなされます。
+- デバッグ(F5)などでプログラムを実行すると output/ ディレクトリに *.out が出力されます。
 ### 提出用ファイル生成
-デバッグ(F5)などでプログラムを実行すると [SourceExpander](https://github.com/kzrnm/SourceExpander) によって Combined.csx が生成されます。
-そのファイルを開き、中身のテキストをそのまま AtCoder などの提出欄に貼り付ければ OK です。
+- デバッグ(F5)などでプログラムを実行すると [SourceExpander](https://github.com/kzrnm/SourceExpander) によって Combined.csx が生成されます。
+- そのファイルを開き、中身のテキストをそのまま AtCoder などの提出欄に貼り付ければ OK です。
 ### ライブラリの利用
-名前空間 LibraryForDotnetCore.* に記述されています。
-適宜 using LibraryForDotnetCore.MySTL; などとして利用してください。
-（[SourceExpander](https://github.com/kzrnm/SourceExpander) によって Combined.csx に自動的に含められるので、コピー＆ペーストなどは不要です。）
+- 名前空間 LibraryForDotnetCore.* に記述されています。
+- 適宜 using LibraryForDotnetCore.MySTL; などとして利用してください。
+- （[SourceExpander](https://github.com/kzrnm/SourceExpander) によって Combined.csx に自動的に含められるので、コピー＆ペーストなどは不要です。）
 
 ## Requirements
-[SourceExpander（必須）](https://github.com/kzrnm/SourceExpander)
-[ac-library-csharp（推奨）](https://github.com/kzrnm/ac-library-csharp)
+- [SourceExpander（必須）](https://github.com/kzrnm/SourceExpander)
+- [ac-library-csharp（推奨）](https://github.com/kzrnm/ac-library-csharp)
 
 ## How to Use
 - 適当にダウンロードして Visual Studio で開く
@@ -36,5 +36,5 @@ input/ ディレクトリに *.in を入れておけば、それらが入力ファイルとみなされます。
 - Combined.csx の内容をコピーしてコンテストページで提出
 
 ## License
-自作部分の著作権は完全フリーとします。
-ただし他の方の記事・文献などを参考に作成した部分（コード内に注釈してあります）があり、それらの著作権の一部は当該記事・文献の著者に帰属する場合があります。
+- 自作部分の著作権は完全フリーとします。
+- ただし他の方の記事・文献などを参考に作成した部分（コード内に注釈してあります）があり、それらの著作権の一部は当該記事・文献の著者に帰属する場合があります。
