@@ -6,8 +6,15 @@
     <StartupObject>AtCoderTemplate.LocalEntryPoint</StartupObject>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <Folder Include="output\" />
+      <Folder Include="input\" />
+      <Folder Include="output\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ac-library-csharp" Version="1.17.0" />
+    <PackageReference Include="SourceExpander" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

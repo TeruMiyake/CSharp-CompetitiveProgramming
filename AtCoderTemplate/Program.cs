@@ -1,109 +1,69 @@
-﻿using LibraryForDotnetCore.Basics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization; // CultureInfo
 using System.IO; // input.txt/output.txt IO 用
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text; // StringBuilder
-
-namespace Problem_ARC133_B
+using LibraryForDotnetCore.Basics; // MyUtil
+using LibraryForDotnetCore.MySTL;
+namespace AtCoderTemplate
 {
     internal class Program
     {
         static void Main()
         {
             Solver sol = new Solver();
-            sol.solve();
+            // 入出力の切り替え、テスト/本番切り替え、SourceExpander 実行など
+            sol.Prepare();
+            sol.Solve();
+            // Prepare() で設定した内容のリセット
+            sol.CleanUp();
         }
     }
 
     public class Solver
     {
-        bool isOnRealStage = false;
-        public void solve([CallerMemberName] string memberName = "")
+        public void Solve()
         {
-            if (memberName != "LocalMain") isOnRealStage = true;
-            if (isOnRealStage)
+            // write your code here
+        }
+        #region TEMPLATE
+        /// <summary>
+        /// 標準入力・標準出力の設定など、Solve() の事前準備を行う
+        /// </summary>
+        /// <param name="memberName"></param>
+        public void Prepare([CallerMemberName] string memberName = "")
+        {
+            // ローカル環境では LocalMain() から呼び出されることを利用して場合分け
+            if (memberName != "LocalMain")
             {
+                // 本番環境
                 scanner = new StreamScanner(Console.OpenStandardInput());
                 var writer = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = false };
                 Console.SetOut(writer);
             }
             else
             {
+                // ローカル環境
                 scanner = new StreamScanner();
+                // https://github.com/kzrnm/SourceExpander
+                SourceExpander.Expander.Expand();
             }
-            // ここからメイン処理を記述
-
-            int N = ri();
-            List<int> As = new List<int>();
-            for (int i = 0; i < N; i++) As.Add(ri());
-
-            int ans = -1;
-            int now = 0;
-            for (int i = 0; i < N; i++)
-            {
-                int a = As[i];
-                if (now > a)
-                {
-                    ans = i - 1;
-                    break;
-                }
-                now = a;
-            }
-            if (ans == -1) ans = N - 1;
-
-            int deletetarget = As[ans];
-            As.RemoveAll(a => a == deletetarget);
-
-            string ansstr = string.Join(" ", As);
-
-            Console.WriteLine(ansstr);
-
-
-            // ここから終了時に必ず行う処理を記述
-            Console.Out.Flush();
         }
         /// <summary>
-        /// ジェネリック狭義最長増加部分列
+        /// 書き換えた標準出力の設定など、事後処理を行う
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="arr"></param>
-        /// <param name="inf"></param>
-        /// <param name="minusinf"></param>
-        /// <returns></returns>
-        [System.Obsolete("Expander を実装したら MyUtil -> Util とする")]
-        int LIS<T>(IList<T> arr, T inf, T minusinf) where T : IComparable
+        public void CleanUp()
         {
-            int N = arr.Count;
-            T[] dp = new T[N + 1];
-            dp[0] = minusinf;
-            for (int i = 0; i < N; i++) dp[i + 1] = inf;
-
-            for (int i = 0; i < N; i++)
-            {
-                T num = arr[i];
-                // dp[j] < num < dp[j+1] となるような j を見つけ、dp[j+1] = num とする
-                bool isOK(IList<T> _dp, int key)
-                {
-                    return (_dp[key].CompareTo(num) < 0);
-                }
-                int j = MyUtil.BinarySearch(dp, N + 1, 0, isOK);
-                dp[j + 1] = num;
-            }
-
-            int ret = -1;
-            // dp[0] は必ず 0 であり、それ以降は構築可能な LIS 長まで INF 未満となっている
-            // よって、INF 未満の数 -1 を返せばいい
-            for (int i = 0; i < N + 1; i++)
-                if (dp[i].CompareTo(inf) != 0) ret++;
-            return ret;
+            Console.Out.Flush();
         }
         // レギュラーメンバー
         const int INF = 1_000_000_007;
         const long LINF = (long)1 << 62;
-        // 入出力
+        // 出力
+        void wl(string str) { Console.WriteLine(str); }
+        // 入力
         // Space を除く通常文字（U+0021:'!' ~ U+007E:'~'）が続く限り読み込む
         public StreamScanner scanner;
         string rs() { return scanner.Scan(); }
@@ -196,54 +156,6 @@ namespace Problem_ARC133_B
             public int Integer() { return (int)Long(); }
             public double Double() { return double.Parse(Scan(), CultureInfo.InvariantCulture); }
         }
+        #endregion
     }
-}
-
-namespace LibraryForDotnetCore.Basics
-{
-    public static class MyUtil
-    {
-        /// <summary>
-        /// 拡張メソッド
-        /// オブジェクトの型名をコンソールに出力する
-        /// </summary>
-        /// <param name="obj"></param>
-        public static void WriteType(this Object obj)
-        {
-            /// 受け取った変数の型の正式名称をコンソールに表示
-            Console.WriteLine(obj.GetType().FullName);
-        }
-
-        /// <summary>
-        /// Ceil(a / b) を返す
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static long CeilDivide(long a, long b)
-        {
-            return (a + b - 1) / b;
-        }
-        /// <summary>
-        /// 汎用的な二分探索（めぐる式二分探索）
-        /// isOK() の結果が単調性を満たす必要がある
-        /// </summary>
-        /// <param name="arr">IList<object></param>
-        /// <param name="ng">決して条件が満たされないような arr の index</param>
-        /// <param name="ok">常に条件が満たされるような arr の index</param>
-        /// <param name="isOK">bool isOK(コレクション, index) index が条件を満たすか</param>
-        /// <returns>isOK() が true となるギリギリの long index</returns>
-        public static int BinarySearch<T>(IList<T> arr, int ng, int ok, Func<IList<T>, int, bool> isOK)
-        {
-            // ok と ng のどちらが大きいか分からないことを考慮
-            while (Math.Abs(ok - ng) > 1)
-            {
-                int mid = (ok + ng) / 2;
-                if (isOK(arr, mid)) ok = mid;
-                else ng = mid;
-            }
-            return ok;
-        }
-    }
-
 }

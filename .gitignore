@@ -1,9 +1,16 @@
-# for RealStage
+# Problem Solutions
 Problem_*
+ABC*
+ARC*
+AGC*
+AHC*
 
 # i/o files
 *.in
 *.out
+
+# files for submission
+Combined.csx
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,csharp
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,csharp

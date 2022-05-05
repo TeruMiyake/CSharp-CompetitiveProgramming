@@ -5,16 +5,17 @@ namespace AtCoderTemplate
 {
     class LocalEntryPoint
     {
-
         static void Main()
         {
             LocalMain();
         }
         static void LocalMain()
         {
-            // ソリューションが保管されているフォルダをフルパスで設定
+            // ソリューションが保管されているフォルダのパスを指定
+            // デバッグ実行のみを考えているため、/Solution/Project/bin/Debug/netcoreapp3.1/ に実行ファイルがあり、Project/ に input/, output/ があることを前提としている
+            // Release ビルドファイルも使えるが、実行ファイルフォルダの 3 つ上のフォルダに input, output を作る必要がある
             string projectName = Path.GetFileName(AppDomain.CurrentDomain.FriendlyName);
-            string projectPath = "D:\\csharp\\CSharp-CompetitiveProgramming\\" + projectName + "\\";
+            string projectPath = "..\\..\\..\\";
 
             string inputDir = projectPath + "input\\";
             string outputDir = projectPath + "output\\";
@@ -26,7 +27,7 @@ namespace AtCoderTemplate
             foreach (string inputFilePath in inputFilePaths)
             {
                 // 標準出力を退避
-                var stdout = Console.Out;
+                TextWriter stdout = Console.Out;
 
                 // 入出力フォルダの設定
                 // input/*.in -> 処理 -> output/*.out
@@ -42,7 +43,9 @@ namespace AtCoderTemplate
 
                         sw.Restart();
                         var solver = new Solver();
-                        solver.solve();
+                        solver.Prepare();
+                        solver.Solve();
+                        solver.CleanUp();
 
                         // 標準出力に戻す
                         Console.SetOut(stdout);
